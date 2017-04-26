@@ -15,20 +15,25 @@
     When added, uncomment 'authMiddleware' in those routes.
 */
 
-// const Projects = require('../models/projects');  // uncomment once db exists
+const Projects = require('../db/projects');  // mock database
 
 module.exports = function (app) {
     
     // GET all projects - public route
     app.get('/api/projects', (req, res) => {
-        res.status(200).send(`GET all projects from /api/projects`);
+        res.status(200).json(Projects);
     });
 
     
     // GET one project - public route
     app.get('/api/projects/:id', (req, res) => {
-        let project = req.params.id;
-        res.status(200).send(`GET project ID: ${project} from /api/projects/:id`);
+        
+        let target  = req.params.id,
+            project = Projects.filter( (p) => {
+                return p._id === target;
+            });
+                
+        res.status(200).json(project);
     });
 
     
