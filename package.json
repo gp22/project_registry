@@ -1,0 +1,24 @@
+{
+  "name": "ngchingu-project-registry",
+  "version": "0.0.1",
+  "description": "Chingu Cohorts Project Registry",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ngChingu/project_registry.git"
+  },
+  "author": "ng-chingu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ngChingu/project_registry/issues"
+  },
+  "homepage": "https://github.com/ngChingu/project_registry#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "morgan": "^1.8.1"
+  }
+}
