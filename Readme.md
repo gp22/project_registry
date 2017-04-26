@@ -20,13 +20,29 @@ The general idea:
 2.  Node/Express also exposes a series of RESTful API routes / end-points that our front-end consumes,
 3.  Most of the 'business logic' (filtering, etc) resides in the SPA front-end.
 
-The API might look like:
+To use locally:
 
-```
-app.get('/api/projects', ...)                        // GET all projects - public route
-app.get('/api/projects/id', ...)                     // GET one project - public route
+1.  clone this repo:
 
-app.post('/api/projects', authMiddleware, ...)       // POST a new project - secured route
-app.put('/api/projects/id', authMiddleware, ...)     // PUT changes updating an existing project - secured route
-app.delete('/api/projects/id', authMiddleware, ...)  // DELETE an existing project - secured route
+    (ssh) `git clone git@github.com:ngChingu/project_registry.git`
+    
+    (https) `git clone https://github.com/ngChingu/project_registry.git`
+
+2.  install dependencies:
+
+    `npm install`
+
+3.  run:
+
+    `node server.js`
+
+Now you can interact with it using [Postman](https://www.getpostman.com/), by sending http requests:
 ```
+   GET  >>  localhost:3000/api/projects     >> return all projects
+   GET  >>  localhost:3000/api/projects/id  >> return project with matching ID
+  POST  >>  localhost:3000/api/projects     >> add new project
+   PUT  >>  localhost:3000/api/projects/id  >> update project with matching ID
+DELETE  >>  localhost:3000/api/projects/id  >> delete project with matching ID
+```
+
+You can also write the above API calls in your Angular front-end.
