@@ -25,7 +25,7 @@ routes.get('/api/signupkeygen', (req, res, next) => {
         ts  = Date.now(),     // time in milliseconds
         exp = ts + 86400000,  // 1 day = 86400000 ms
         str = `${key.length} bytes of random data: ${key}`,
-        url = `https://chingu-project-registry.herokuapp.com/api/signup?${key}`;
+        url = `https://chingu-project-registry.herokuapp.com/api/signup?key=${key}`;
         
     // check if key already in database
     SignupKey.findOne({ key: key}, (err, foundKey) => {
