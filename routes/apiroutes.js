@@ -15,45 +15,46 @@
     When added, uncomment 'authMiddleware' in those routes.
 */
 
-const Projects = require('../db/projects');  // mock database
+const routes   = require('express').Router(),
+      Projects = require('../db/projects');  // mock database
 
-module.exports = function (app) {
-    
-    // GET all projects - public route
-    app.get('/api/projects', (req, res) => {
-        res.status(200).json(Projects);
-    });
 
-    
-    // GET one project - public route
-    app.get('/api/projects/:id', (req, res) => {
-        
-        let target  = req.params.id,
-            project = Projects.filter( (p) => {
-                return p._id === target;
-            });
-                
-        res.status(200).json(project);
-    });
+// GET all projects - public route
+routes.get('/api/projects', (req, res, next) => {
+    res.status(200).json(Projects);
+});
 
-    
-    // POST a new project - secured route
-    app.post('/api/projects', /*authMiddleware,*/ (req, res) => {
-        res.status(200).send(`POST a new project to /api/projects`);
-    });
-    
-    
-    // PUT changes updating an existing project - secured route
-    app.put('/api/projects/:id', /*authMiddleware,*/ (req, res) => {
-        let project = req.params.id;
-        res.status(200).send(`PUT updates project ID: ${project} to /api/projects/:id`);
-    });
-    
-    
-    // DELETE an existing project - secured route
-    app.delete('/api/projects/:id', /*authMiddleware,*/ (req, res) => {
-        let project = req.params.id;
-        res.status(200).send(`DELETE project ID: ${project} from /api/projects/:id`);
-    });    
-    
-};
+
+// GET one project - public route
+routes.get('/api/projects/:id', (req, res, next) => {
+
+    let target  = req.params.id,
+        project = Projects.filter( (p) => {
+            return p._id === target;
+        });
+
+    res.status(200).json(project);
+});
+
+
+// POST a new project - secured route
+routes.post('/api/projects', /*authMiddleware,*/ (req, res, next) => {
+    res.status(200).send(`POST a new project to /api/projects`);
+});
+
+
+// PUT changes updating an existing project - secured route
+routes.put('/api/projects/:id', /*authMiddleware,*/ (req, res, next) => {
+    let project = req.params.id;
+    res.status(200).send(`PUT updates project ID: ${project} to /api/projects/:id`);
+});
+
+
+// DELETE an existing project - secured route
+routes.delete('/api/projects/:id', /*authMiddleware,*/ (req, res, next) => {
+    let project = req.params.id;
+    res.status(200).send(`DELETE project ID: ${project} from /api/projects/:id`);
+});
+
+
+module.exports = routes;

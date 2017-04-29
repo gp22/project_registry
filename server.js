@@ -68,7 +68,7 @@ passport.use(new LocalStrategy(
 
 /* ================================ ROUTES ================================= */
 
-//app.use(apiRoutes);
+app.use(apiRoutes);
 app.use(authRoutes);
 app.use(publicRoutes);
 
