@@ -73,7 +73,7 @@ app.use(authRoutes);
 app.use(publicRoutes);
 
 
-/* ============================ ERROR HANDLER ? ============================ */
+/* ============================= ERROR HANDLER ============================ */
 
 app.use(function (err, req, res, next) {
     console.log('Error!\n', err.stack);
