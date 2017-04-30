@@ -182,6 +182,17 @@ routes.post('/api/signup', (req, res, next) => {
 });
 
 
+/* Route to serve login page
+*/
+routes.get('/api/login', (req, res) => {
+    
+    return res
+        .status(200)  // 'ok'
+        .sendFile('features/login/login.html', { root: path.join(__dirname, '../public')});
+    
+});
+
+
 /* Route to handle user login.
    Returns fail status + info -or- success status + JWT
 */
@@ -195,6 +206,8 @@ routes.post('/api/login', (req, res, next) => {
     }
     
     passport.authenticate('local', function (err, user, info) {
+        
+        console.log(info);
         
         if (err) { return next(err); }
         

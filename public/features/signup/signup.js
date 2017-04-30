@@ -48,6 +48,9 @@
         $.post(url, { username: uname, password: pword, key: key })
             .then( (data) => {
                 console.log('Success', data);
+                
+                window.localStorage.setItem('token', JSON.stringify(data.token));
+            
                 DOM.$signupStat
                     .html(`<div class="alert alert-success" role="alert">
                            <strong>Registration successful</strong></div>`);
