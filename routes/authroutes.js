@@ -6,7 +6,8 @@
 
 'use strict';
 
-const crypto    = require('crypto'),
+const path      = require('path'),
+      crypto    = require('crypto'),
       routes    = require('express').Router(),
       User      = require('../models/user'),
       SignupKey = require('../models/signup_key'),
@@ -90,9 +91,10 @@ routes.get('/api/signup', (req, res, next) => {
         
         } else {
             return res
-                .status(200)  // 'created'
-                .send(`Token found and valid.`);
-                // send the registration page/view/template
+                .status(200)  // 'ok'
+                //.send(`Token found and valid.`);
+                .sendFile('features/signup/signup.html', { root: path.join(__dirname, '../public')});
+                
             
         }
         
@@ -114,14 +116,14 @@ routes.post('/api/signup', (req, res, next) => {
     }
     
     // verify existence of signup key
-    if (!req.query.key) {
+    if (!req.body.key) {
         return res
             .status(400)
             .json({ message: 'Missing signup key.'});
     }
     
     // verify signup key has not expired
-    SignupKey.findOne({ key: req.query.key})
+    SignupKey.findOne({ key: req.body.key})
         .exec()
         .then(function (foundKey) {
         

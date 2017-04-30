@@ -18,6 +18,11 @@ const dotenv     = require('dotenv').config(),
               type   : String,
               unique : true
           },
+          role: {
+              type : String,
+              enum: ['admin', 'non-admin'],
+              default: 'non-admin'
+          },
           hash: String,
           salt: String
       });
