@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chingu Cohorts Project Registry - Signup</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" type="text/css">
+    
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Signup</h1>
+        
+        <hr>
+
+        <form id="signup-form" action="submit">
+            <div class="form-group row">
+                <label for="signup-name" class="col-2 col-form-label">User Name</label>
+                <div class="col-10">
+                    <input type="text" class="form-control" id="signup-name" placeholder="Enter username" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="signup-password" class="col-2 col-form-label">Password</label>
+                <div class="col-10">
+                    <input type="password" class="form-control" id="signup-password" placeholder="Enter password" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="signup-key" class="col-2 col-form-label">Key</label>
+                <div class="col-10">
+                    <input type="text" class="form-control" id="signup-key" value="Registration key missing" disabled>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <div class="well" id="signup-stat"></div>
+    </div>
+    
+    <script src="/lib/jquery.min.js"></script>
+    <script src="/features/signup/signup.js"></script>
+    
+</body>
+</html>
