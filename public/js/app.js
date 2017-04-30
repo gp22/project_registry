@@ -17,7 +17,7 @@
    
    // consume the API
    function hitApi() {
-      const apiUrl = 'https://chingu-project-registry.herokuapp.com/api/projects/';
+      const apiUrl = 'api/projects';
       $.getJSON(apiUrl).then( render );
    }
    
