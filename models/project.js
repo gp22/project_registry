@@ -32,6 +32,11 @@ const mongoose = require('mongoose'),
           demo: {
               type     : String,
               trim     : true
+          },
+          createdByUserId: {
+              type     : String,
+              required : true,
+              trim     : true
           }
       });
 
