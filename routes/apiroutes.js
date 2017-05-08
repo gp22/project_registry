@@ -69,8 +69,8 @@ routes.get('/api/dashboard', auth, (req, res) => {
 
 
 // POST a new project - secured route
-routes.post('/api/projects', /*authMiddleware,*/ (req, res) => {
-    res.status(200).send(`POST a new project to /api/projects`);
+routes.post('/api/projects', auth, (req, res) => {
+    res.status(200).send(`If you're seeing this, auth worked and you are permitted to POST a new project`);
 });
 
 
