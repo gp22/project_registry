@@ -10,17 +10,9 @@
     DELETE    /api/projects/:id           Delete a single project
 */
 
-/*  Authentication Middleware Notes:
-    POST PUT and DELETE require auth. To be added later.
-    When added, uncomment 'authMiddleware' in those routes.
-*/
-
 const routes   = require('express').Router(),
       jwt      = require('express-jwt'),
       Project  = require('../models/project'),
-      
-      // Config express-jwt with our super secret secret and the name of
-      // the req object property that has the JWT ('token')
       secret   = process.env.JWT_SECRET,
       auth     = jwt({ secret: secret, requestProperty: 'token' });
 
@@ -69,22 +61,124 @@ routes.get('/api/dashboard', auth, (req, res) => {
 
 
 // POST a new project - secured route
-routes.post('/api/projects', /*authMiddleware,*/ (req, res) => {
-    res.status(200).send(`POST a new project to /api/projects`);
+routes.post('/api/projects', auth, (req, res) => {
+    
+    // Build new project object from req.body data
+    // and the `_id` of the user who made the request.
+    // We get `_id` from `auth` middleware which returns token object
+    let newProject = {
+        cohort          : req.body.cohort,
+        team_name       : req.body.team_name,
+        project_name    : req.body.project_name,
+        repo            : req.body.repo,
+        demo            : req.body.demo,
+        createdByUserId : req.token._id
+    };
+    
+    // First check to see if project already exists
+    Project
+        .findOne({
+            cohort       : req.body.cohort,
+            team_name    : req.body.team_name,
+            project_name : req.body.project_name
+        })
+        .exec()
+        .then( (project) =>  {
+        
+            if (!project) {
+                
+                Project.create(newProject, (err, proj) => {
+                    return res.status(200).json({
+                        message : 'New project created',
+                        project : proj
+                    });
+                });                
+                
+            } else {
+                return res.status(400).json({
+                    message: 'Error - project already exists'
+                });
+            }
+
+        })
+        .catch( (err) => console.log('Error!!!', err));
+    
 });
 
 
 // PUT changes updating an existing project - secured route
-routes.put('/api/projects/:id', /*authMiddleware,*/ (req, res) => {
-    let project = req.params.id;
-    res.status(200).send(`PUT updates project ID: ${project} to /api/projects/:id`);
+routes.put('/api/projects/:id', auth, (req, res) => {
+    
+    // Target the project with matching `_id` and
+    // the ID of the user who made the request.
+    // We get `createdByUserId` from `auth` middleware which
+    // returns a token object
+    const target = {
+            _id             : req.params.id,
+            createdByUserId : req.token._id
+        },
+        updates = {
+            cohort          : req.body.cohort,
+            team_name       : req.body.team_name,
+            project_name    : req.body.project_name,
+            repo            : req.body.repo,
+            demo            : req.body.demo,
+            createdByUserId : req.token._id
+        },
+        options = {
+            new: true
+        };
+    
+    Project.findOneAndUpdate(target, updates, options)
+        .exec()
+        .then( (pr) => {
+        
+            if (!pr) {
+                return res.status(404).json({
+                    message: 'Error - project not found'
+                });
+            } else {
+                return res.status(200).json({
+                    message: `Project updated: ${pr.cohort} / ${pr.team_name} / ${pr.project_name}`,
+                    project: pr});
+            }
+        })
+        .catch( (err) => console.log('Error!!!', err));
+    
 });
 
 
 // DELETE an existing project - secured route
-routes.delete('/api/projects/:id', /*authMiddleware,*/ (req, res) => {
-    let project = req.params.id;
-    res.status(200).send(`DELETE project ID: ${project} from /api/projects/:id`);
+routes.delete('/api/projects/:id', auth, (req, res) => {
+    
+    // Target the project with matching `_id` and
+    // the ID of the user who made the request.
+    // We get `createdByUserId` from `auth` middleware which
+    // returns a token object
+    let target = {
+        _id             : req.params.id,
+        createdByUserId : req.token._id
+    };
+    
+    Project.findOneAndRemove(target)
+        .exec()
+        .then( (pr) => {
+        
+            if (!pr) {
+                return res.status(404).json({
+                    message: 'Error - project not found'
+                });
+            } else {
+                
+                return res.status(200).json({
+                    message: `Project deleted: ${pr.cohort} / ${pr.team_name} / ${pr.project_name}`,
+                    project: pr});
+
+            }
+        
+        })
+        .catch( (err) => console.log('Error!!!', err));
+    
 });
 
 
