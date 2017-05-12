@@ -100,3 +100,7 @@ mongoose.Promise = global.Promise;
 app.listen(port, function () {
     console.log(`Server listening on port ${port}.`);
 });
+
+/* ======= Export express so that it can be used by mocha for tests ======= */
+
+module.exports = { app };
